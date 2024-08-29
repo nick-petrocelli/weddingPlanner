@@ -1,0 +1,40 @@
+@model WeddingPlanner.Models.Wedding
+
+<div class="d-flex justify-content-around align-items-center mt-3">
+    <div>
+        <h1 class="display-6">Welcome @ViewData["CurrentUserName"]!</h1>
+    </div>
+
+    <div>
+        <a href="~/Dashboard" class="display-6">Home</a> 
+    </div>
+
+    <div>
+        <a href="~/Wedding/new" class="display-6">Plan a Wedding</a> 
+    </div>
+
+    <div>
+        <form asp-action="Logout" asp-controller="User" method="post" class="text-center">
+                <button type="submit" class="btn btn-success">Logout</button>
+        </form>
+    </div>
+
+</div>
+
+<hr>
+
+<div class="container">
+    <h1 class="display-4">@Model.Partner1 & @Model.Partner2 Wedding</h1>
+    <h2 class="display-6"><strong>Date:</strong> @Model.EventDate.ToString("MMMM dd, yyyy")</h2>
+    <div class="card mt-3">
+            <div class="card-body">
+            <h5>Guest</h5>
+            <ul class="list-group">
+                @foreach (var guest in Model.GuestList)
+                {
+                    <li class="list-group-item">@guest.User.FirstName @guest.User.LastName</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

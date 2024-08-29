@@ -1,0 +1,56 @@
+@model WeddingPlanner.Models.Wedding
+
+<div class="d-flex justify-content-around align-items-center mt-3">
+    <div>
+        <h1 class="display-6">Welcome @ViewData["CurrentUserName"]!</h1>
+    </div>
+
+    <div>
+        <a href="~/Dashboard" class="display-6">Home</a> 
+    </div>
+
+    <div>
+        <a href="~/Wedding/new" class="display-6">Plan a Wedding</a> 
+    </div>
+
+    <div>
+        <form asp-action="Logout" asp-controller="User" method="post" class="text-center">
+                <button type="submit" class="btn btn-success">Logout</button>
+        </form>
+    </div>
+
+</div>
+
+<hr>
+
+<div class="container">
+    <form method="post" asp-action="CreateWedding" class="form">
+        <div class="form-group mb-3">
+            <label asp-for="Partner1">Wedder One:</label>
+            <input asp-for="Partner1" placeholder="Enter the name of the first Wedder" class="form-control"/>
+            <span class="mt-2 text-danger" asp-validation-for="Partner1"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Partner2">Wedder Two:</label>
+            <input asp-for="Partner2" placeholder="Enter the name of the second Wedder" class="form-control"/>
+            <span class="mt-2 text-danger" asp-validation-for="Partner2"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="EventDate">Date:</label>
+            <input asp-for="EventDate" class="form-control" type="date" placeholder="When's the wedding?"/>
+            <span asp-validation-for="EventDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="EventAddress">Address:</label>
+            <input asp-for="EventAddress" placeholder="Where's the wedding?" class="form-control"/>
+            <span class="mt-2 text-danger" asp-validation-for="EventAddress"></span>
+        </div>
+
+        <div class="d-flex justify-content-between mt-3">
+            <button type="submit" class="btn btn-primary">Create!</button>
+        </div>
+    </form>
+</div>

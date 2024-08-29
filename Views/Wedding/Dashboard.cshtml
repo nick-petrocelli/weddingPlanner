@@ -1,0 +1,76 @@
+@model IEnumerable<WeddingPlanner.Models.Wedding>
+
+<div class="d-flex justify-content-around align-items-center mt-3">
+    <div>
+        <h1 class="display-6">Welcome @ViewData["CurrentUserName"]!</h1>
+    </div>
+
+    <div>
+        <a href="~/Dashboard" class="display-6">Home</a> 
+    </div>
+
+    <div>
+        <a href="~/Wedding/new" class="display-6">Plan a Wedding</a> 
+    </div>
+
+    <div>
+        <form asp-action="Logout" asp-controller="User" method="post" class="text-center">
+                <button type="submit" class="btn btn-success">Logout</button>
+        </form>
+    </div>
+
+</div>
+    <hr>
+
+<div class="container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Wedding of</th>
+                <th scope="col">Date</th>
+                <th scope="col">Guest Count</th>
+                <th scope="col">Action:</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var w in Model)
+            {
+                <tr>
+                    <td>
+                    <a href="@Url.Action("WeddingDetailsPage", "Wedding", 
+                    new { id = w.WeddingId })">
+                    @w.Partner1 & @w.Partner2
+                    </a>
+                    </td>
+                    <td>@w.EventDate.ToString("MMMM dd, yyyy")</td>
+                    <td>@w.GuestList.Count</td>
+                    <td>
+                        @if ((int)ViewData["CurrentUserId"] == w.UserId)
+                        {
+                            <form method="post" action="@Url.Action("Delete", "Wedding", new { id = w.WeddingId })">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        }
+                        else
+                        {
+                            bool hasRSVP = w.GuestList.Any(g => g.UserId == (int)ViewData["CurrentUserId"]);
+
+                            @if (hasRSVP)
+                            {
+                                <form method="post" action="@Url.Action("RSVP", "Wedding", new { weddingId = w.WeddingId })">
+                                    <button type="submit" class="btn btn-warning">Un-RSVP</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form method="post" action="@Url.Action("RSVP", "Wedding", new { weddingId = w.WeddingId })">
+                                    <button type="submit" class="btn btn-primary">RSVP</button>
+                                </form>
+                            }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
